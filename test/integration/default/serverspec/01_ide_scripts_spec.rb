@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe 'ide scripts' do
   describe command('/usr/bin/ide-setup-identity.sh') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should eq "success\n" }
+    its(:stdout) { should eq "ide identity set\n" }
   end
 
   describe command('/usr/bin/ide-fix-uid-gid.sh') do
@@ -25,7 +25,7 @@ describe 'ide scripts' do
     its(:stdout) { should_not contain '/etc/docker_metadata.txt:' }
     # this means that /etc/docker_metadata.txt is correct:
     its(:stdout) { should contain 'ide init finished' }
-    its(:stdout) { should contain 'using chefide:' }
+    its(:stdout) { should contain 'using gitide:' }
     its(:exit_status) { should eq 0 }
   end
 end

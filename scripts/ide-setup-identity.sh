@@ -44,3 +44,6 @@ fi
 # this docker image.
 touch "${ide_home}/.profile"
 echo "cd ${ide_work}" > "${ide_home}/.profile"
+
+# inform about success
+echo "ide identity set"
