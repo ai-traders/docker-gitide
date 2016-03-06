@@ -1,0 +1,21 @@
+---
+platforms:
+  - name: docker-image
+    transport:
+      name: docker_cli
+    driver:
+      name: docker_cli
+    driver_config:
+      dockerfile: KitchenDockerfile
+      # the just built image
+      image: <%= ENV['AIT_DOCKER_IMAGE_NAME'] %>:<%= ENV['AIT_DOCKER_IMAGE_TAG'] %>
+      # this does not work, so is set in KitchenDockerfile
+      # entrypoint: /bin/bash
+      #command: -c "/sbin/my_init"
+      container_name: kt-gitide-image
+      volume:
+        - <%= File.dirname(__FILE__) %>/test/integration/dummy_work:/ide/work
+        - <%= File.dirname(__FILE__) %>/test/integration/dummy_identity:/ide/identity
+
+suites:
+  - name: default

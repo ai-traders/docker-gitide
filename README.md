@@ -20,3 +20,12 @@ By default current directory in docker container is `/ide/work`. Example command
 ```bash
 ide "git clone git@git.ai-traders.com:edu/bash.git && ls -la bash && pwd"
 ```
+
+## Development
+```
+$ rake style
+$ rake build
+$ chef exec bundle exec kitchen converge default-docker-image
+$ chef exec bundle exec kitchen verify default-docker-image
+$ rake end_user_test
+```

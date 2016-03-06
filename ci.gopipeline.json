@@ -1,0 +1,220 @@
+{
+  "name" : "docker-gitide",
+  "group" : "lab",
+  "label_template": "${git}",
+  "materials" : [
+    {
+      "type" : "git",
+      "name" : "git",
+      "url" : "git@git.ai-traders.com:lab/docker-gitide.git",
+      "branch" : "ci"
+    }
+  ],
+  "stages" : [
+    {
+      "name" : "style-unit",
+      "clean_working_directory": true,
+      "jobs" : [
+        {
+          "name" : "validate_repo",
+          "resources" : ["docker","small"],
+          "tasks" : [
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:git:destructive_validate_repo"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        },
+        {
+          "name" : "repocritic",
+          "resources" : ["docker","small"],
+          "tasks" : [
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:style:repocritic"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "build",
+      "clean_working_directory": true,
+      "jobs" : [
+        {
+          "name" : "docker_image",
+          "resources" : ["build_docker"],
+          "artifacts": [
+            {
+              "source": "imagerc",
+              "destination": "./",
+              "type": "build"
+            }
+          ],
+          "tasks" : [
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:build"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "itest",
+      "clean_working_directory": true,
+      "jobs" : [
+        {
+          "name" : "kitchen-default-docker-image",
+          "resources" : ["dev_docker"],
+          "tasks" : [
+            {
+              "type": "fetch",
+              "run_if": "passed",
+              "pipeline": "",
+              "stage": "build",
+              "job": "docker_image",
+              "is_source_a_file": true,
+              "source": "imagerc",
+              "destination": "./"
+            },
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:itest:kitchen:default-docker-image"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        },
+        {
+          "name" : "test_docker_end_user",
+          "resources" : ["dev_docker"],
+          "tasks" : [
+            {
+              "type": "fetch",
+              "run_if": "passed",
+              "pipeline": "",
+              "stage": "build",
+              "job": "docker_image",
+              "is_source_a_file": true,
+              "source": "imagerc",
+              "destination": "./"
+            },
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake test_docker_end_user"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "release",
+      "jobs" : [
+        {
+          "name" : "code",
+          "resources" : ["docker","small"],
+          "tasks" : [
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:release:code"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "publish",
+      "jobs" : [
+        {
+          "name" : "docker_image",
+          "resources" : ["docker","small"],
+          "tasks" : [
+            {
+              "type": "fetch",
+              "run_if": "passed",
+              "pipeline": "",
+              "stage": "build",
+              "job": "docker_image",
+              "is_source_a_file": true,
+              "source": "imagerc",
+              "destination": "./"
+            },
+            {
+              "type": "plugin",
+              "run_if": "passed",
+              "configuration": [
+                {
+                  "key": "script",
+                  "value": "ide rake go:publish:image"
+                }
+              ],
+              "plugin_configuration": {
+                "id": "script-executor",
+                "version": "1"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
