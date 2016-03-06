@@ -19,8 +19,13 @@ namespace 'itest' do
     end.join(' ')
   end
 
-  desc 'Test if configuration files exist to fail fast'
+  desc 'Clean before test and provide real identity'
   task :end_user_test_prep do
+    # Clean test files
+    if File.directory?('test/integration/dummy_work/bash')
+      FileUtils.rm_r('test/integration/dummy_work/bash')
+    end
+
     # copy real identity files into a directory which will be mounted as
     # /ide/identity
     real_identity_dir = File.join(
@@ -29,12 +34,10 @@ namespace 'itest' do
     mkdir_p("#{real_identity_dir}/.bashrc.d/")
     if !File.directory?("#{ENV['HOME']}/.ssh")
       fail "#{ENV['HOME']}/.ssh does not exist"
-    else File.file?("#{ENV['HOME']}/.bashrc.d/openstack")
-      cp_r("#{ENV['HOME']}/.ssh", "#{real_identity_dir}/")
     end
 
     if File.file?("#{ENV['HOME']}/.gitconfig")
-      cp("#{ENV['HOME']}/.gitconfig/", "#{real_identity_dir}/")
+      cp("#{ENV['HOME']}/.gitconfig", "#{real_identity_dir}/")
     end
   end
   task end_user_test: :end_user_test_prep

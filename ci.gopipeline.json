@@ -125,7 +125,7 @@
           ]
         },
         {
-          "name" : "test_docker_end_user",
+          "name" : "end_user_test",
           "resources" : ["dev_docker"],
           "tasks" : [
             {
@@ -144,7 +144,7 @@
               "configuration": [
                 {
                   "key": "script",
-                  "value": "ide rake test_docker_end_user"
+                  "value": "ide rake itest:end_user_test"
                 }
               ],
               "plugin_configuration": {

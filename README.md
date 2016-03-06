@@ -27,5 +27,8 @@ $ rake style
 $ rake build
 $ chef exec bundle exec kitchen converge default-docker-image
 $ chef exec bundle exec kitchen verify default-docker-image
-$ rake end_user_test
+$ rake itest:end_user_test
 ```
+
+There is a docker_image_version.txt file in scripts directory. Perhaps that is
+ wrong.
