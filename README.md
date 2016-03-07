@@ -31,8 +31,8 @@ The **actual code** is:
 The **tests** are:
  * `test/integration/default` - a default Test-Kitchen suite
  * `test/integration/dummy_identity` - contains secrets/configuration files
-    for tests (for Test-Kitchen and end user tests). Note that permissions of
-    dummy `~/.ssh/id_rsa` must be 600.
+    for tests (for Test-Kitchen and end user tests). Permissions of
+    dummy `~/.ssh/id_rsa` should be 600, but git does not preserve them anyways.
  * `test/integration/dummy_work` - just an empty directory which will be mounted
     when testing, so that `ide-fix-uid-gid.sh` works
  * `test/integration/end_user` - end user RSpec tests, to test the real usage

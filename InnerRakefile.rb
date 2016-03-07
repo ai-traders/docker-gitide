@@ -31,6 +31,7 @@ namespace 'itest' do
     real_identity_dir = File.join(
       File.dirname(__FILE__), 'test/integration/end_user/real_identity/')
 
+    FileUtils.mkdir_p(real_identity_dir)
     if !File.directory?("#{ENV['HOME']}/.ssh")
       fail "#{ENV['HOME']}/.ssh does not exist"
     else
