@@ -2,14 +2,6 @@
 
 Example docker image construction and usage for IDE project.
 
-## Configuration
-Those files are used inside gitide docker image:
-1. `~/.ssh/config` -- will be generated on docker container start
-2. `~/.ssh/id_rsa` -- it must exist locally, because it is a secret
-2. `~/.gitconfig` -- if exists locally, will be copied
-3. `/home/ide/.profile` -- will be generated on docker container start, in
-   order to ensure current directory is `/ide/work`.
-
 ## Usage
 Example Idefile:
 ```
@@ -23,12 +15,20 @@ Example command:
 ide "git clone git@git.ai-traders.com:edu/bash.git && ls -la bash && pwd"
 ```
 
+### Configuration
+Those files are used inside gitide docker image:
+1. `~/.ssh/config` -- will be generated on docker container start
+2. `~/.ssh/id_rsa` -- it must exist locally, because it is a secret
+2. `~/.gitconfig` -- if exists locally, will be copied
+3. `~/.profile` -- will be generated on docker container start, in
+   order to ensure current directory is `/ide/work`.
+
 ## Development
-The actual code is:
+The **actual code** is:
  * `Dockerfile`
  * `scripts/` directory
 
-The tests are:
+The **tests** are:
  * `test/integration/default` - a default Test-Kitchen suite
  * `test/integration/dummy_identity` - contains secrets/configuration files
     for tests (for Test-Kitchen and end user tests). Note that permissions of
@@ -38,7 +38,7 @@ The tests are:
  * `test/integration/end_user` - end user RSpec tests, to test the real usage
  with `docker run commands`
 
-All the test rake tasks:
+All the **test rake tasks**:
 ```bash
 # Run repocritic linting.
 $ rake style
@@ -55,5 +55,12 @@ $ chef exec bundle exec kitchen verify default-docker-image
 $ rake itest:end_user_test
 ```
 
-There is a docker_image_version.txt file in `scripts` directory which keeps
+There is a `docker_image_version.txt` file in `scripts` directory which keeps
  this docker image version. Perhaps that is wrong.
+
+**Gem dockerimagerake** is used to:
+ * provide test rake tasks
+ * create imagerc file
+ * provide docker image build rake task
+ * provide release and publish rake tasks
+Those rake tasks are used in `ci.gopipeline.json` file.
