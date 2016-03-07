@@ -67,7 +67,6 @@
           "artifacts": [
             {
               "source": "imagerc",
-              "destination": "./",
               "type": "build"
             }
           ],
@@ -105,8 +104,7 @@
               "stage": "build",
               "job": "docker_image",
               "is_source_a_file": true,
-              "source": "imagerc",
-              "destination": "./"
+              "source": "imagerc"
             },
             {
               "type": "plugin",
@@ -135,8 +133,7 @@
               "stage": "build",
               "job": "docker_image",
               "is_source_a_file": true,
-              "source": "imagerc",
-              "destination": "./"
+              "source": "imagerc"
             },
             {
               "type": "plugin",
@@ -195,8 +192,7 @@
               "stage": "build",
               "job": "docker_image",
               "is_source_a_file": true,
-              "source": "imagerc",
-              "destination": "./"
+              "source": "imagerc"
             },
             {
               "type": "plugin",
