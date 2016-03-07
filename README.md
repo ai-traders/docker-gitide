@@ -13,22 +13,47 @@ Those files are used inside gitide docker image:
 ## Usage
 Example Idefile:
 ```
-IDE_DOCKER_IMAGE="gitide:0.1.1"
+IDE_DOCKER_IMAGE="gitide:0.2.0"
 ```
 
-By default current directory in docker container is `/ide/work`. Example command:
+By default, current directory in docker container is `/ide/work`.
+
+Example command:
 ```bash
 ide "git clone git@git.ai-traders.com:edu/bash.git && ls -la bash && pwd"
 ```
 
 ## Development
-```
+The actual code is:
+ * `Dockerfile`
+ * `scripts/` directory
+
+The tests are:
+ * `test/integration/default` - a default Test-Kitchen suite
+ * `test/integration/dummy_identity` - contains secrets/configuration files
+    for tests (for Test-Kitchen and end user tests). Note that permissions of
+    dummy `~/.ssh/id_rsa` must be 600.
+ * `test/integration/dummy_work` - just an empty directory which will be mounted
+    when testing, so that `ide-fix-uid-gid.sh` works
+ * `test/integration/end_user` - end user RSpec tests, to test the real usage
+ with `docker run commands`
+
+All the test rake tasks:
+```bash
+# Run repocritic linting.
 $ rake style
+# Build gitide docker image. This will generate imagerc file
+# (dockerimagerake gem is responsible for this).
 $ rake build
+# This is crucial to make .kitchen.image.yml a valid yaml file, it needs some
+# environment variables, which are in imagerc file.
+$ source imagerc
+# Run Test-Kitchen tests using dummy identity.
 $ chef exec bundle exec kitchen converge default-docker-image
 $ chef exec bundle exec kitchen verify default-docker-image
+# Run end user tests using both: dummy and real identities.
 $ rake itest:end_user_test
 ```
 
-There is a docker_image_version.txt file in scripts directory. Perhaps that is
- wrong.
+There is a docker_image_version.txt file in `scripts` directory which keeps
+ this docker image version. Perhaps that is wrong.
