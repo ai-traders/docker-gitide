@@ -6,7 +6,7 @@
     {
       "type" : "git",
       "name" : "git",
-      "url" : "git@git.ai-traders.com:lab/docker-gitide.git",
+      "url" : "git@git.ai-traders.com:ide/docker-gitide.git",
       "branch" : "ci"
     }
   ],
