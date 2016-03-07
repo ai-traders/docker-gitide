@@ -1,6 +1,6 @@
 {
   "name" : "docker-gitide",
-  "group" : "lab",
+  "group" : "ide",
   "label_template": "${git}",
   "materials" : [
     {
