@@ -31,9 +31,10 @@ namespace 'itest' do
     real_identity_dir = File.join(
       File.dirname(__FILE__), 'test/integration/end_user/real_identity/')
 
-    mkdir_p("#{real_identity_dir}/.bashrc.d/")
     if !File.directory?("#{ENV['HOME']}/.ssh")
       fail "#{ENV['HOME']}/.ssh does not exist"
+    else
+      FileUtils.cp_r("#{ENV['HOME']}/.ssh", "#{real_identity_dir}/")
     end
 
     if File.file?("#{ENV['HOME']}/.gitconfig")
