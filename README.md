@@ -1,6 +1,7 @@
 # gitide
 
-Example docker image construction and usage for IDE project.
+An [IDE](https://github.com/ai-traders/ide) docker image. Allows
+ you to run Git commands in Docker.
 
 ## Usage
 Example Idefile:
@@ -12,8 +13,12 @@ By default, current directory in docker container is `/ide/work`.
 
 Example command:
 ```bash
-ide "git clone git@git.ai-traders.com:edu/bash.git && ls -la bash && pwd"
+ide "git clone git@github.com:ai-traders/ide.git && ls -la ide && pwd"
 ```
+
+You have to update the [ide-setup-identity.sh](scripts/ide-setup-identity.sh)
+ file in order to make this work with your private git server (just the
+ `${ide_home}/.ssh/config` file generation).
 
 ### Configuration
 Those files are used inside gitide docker image:
@@ -27,6 +32,8 @@ Those files are used inside gitide docker image:
 The **actual code** is:
  * `Dockerfile`
  * `scripts/` directory
+
+*There are some test tools which are not open source (yet)*
 
 The **tests** are:
  * `test/integration/default` - a default Test-Kitchen suite
