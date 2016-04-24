@@ -1,6 +1,6 @@
 # gitide
 
-An [IDE](https://github.com/ai-traders/ide) docker image. Allows
+An example [IDE](https://github.com/ai-traders/ide) docker image. Allows
  you to run Git commands in Docker.
 
 ## Usage
