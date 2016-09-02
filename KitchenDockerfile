@@ -1,14 +1,10 @@
 FROM <%= config[:image] %>
 
-# install wget to download chef-client.deb, install sudo, because
-# `kitchen verify` fails without it.
-RUN apt-get update && \
-  apt-get install -y wget sudo && \
-  wget --no-verbose https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/10.04/x86_64/chef_12.4.1-1_amd64.deb && \
-  dpkg -i chef_12.4.1-1_amd64.deb && rm chef_12.4.1-1_amd64.deb
+RUN git clone --depth 1 https://github.com/sstephenson/bats.git && \
+  git clone --depth 1 https://github.com/ztombol/bats-support.git && \
+  git clone --depth 1 https://github.com/ztombol/bats-assert.git && \
+  /bats/install.sh /usr/local
 
-# you might want to install also apt package: net-tools
-# (see default_spec.rb)
-
-# do not use the entrypoint set by docker image
+# do not use the entrypoint set by docker image, so that we can properly test
+# if it fails
 ENTRYPOINT ["/bin/bash"]

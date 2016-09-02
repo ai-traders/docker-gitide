@@ -1,3 +1,10 @@
+# 0.3.0 (2 Sep 2016)
+
+* install IDE image configs from https://github.com/ai-traders/ide.git
+* change base image to alpine, so that gitide is now <30MB
+* do not install Chef-client for tests
+* replace InnerRakefile and Rakefile with only Rakefile
+
 # 0.2.0
 
 * #8906 separated from ide git repository

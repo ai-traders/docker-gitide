@@ -1,8 +1,0 @@
-source 'http://rubygems.org'
-
-gem 'rspec', '= 3.3.0'
-gem 'serverspec', '= 2.25'
-gem 'specinfra', '= 2.47'
-gem 'syntax', '= 1.2.0' # for syntax highlighting in html reports
-
-# will be saved onto /tmp/busser/gems/gems/

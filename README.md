@@ -6,7 +6,7 @@ An example [IDE](https://github.com/ai-traders/ide) docker image. Allows
 ## Usage
 Example Idefile:
 ```
-IDE_DOCKER_IMAGE="gitide:0.2.0"
+IDE_DOCKER_IMAGE="gitide:0.3.0"
 ```
 
 By default, current directory in docker container is `/ide/work`.
@@ -22,6 +22,7 @@ You have to update the [ide-setup-identity.sh](scripts/ide-setup-identity.sh)
 
 ### Configuration
 Those files are used inside gitide docker image:
+
 1. `~/.ssh/config` -- will be generated on docker container start
 2. `~/.ssh/id_rsa` -- it must exist locally, because it is a secret
 2. `~/.gitconfig` -- if exists locally, will be copied
@@ -75,4 +76,3 @@ Those rake tasks are used in `ci.gopipeline.json` file.
 ## License
 
 This project is licensed under the [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/) license.
-
