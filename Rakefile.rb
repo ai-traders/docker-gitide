@@ -15,6 +15,7 @@ task default: :test
 
 # creates validate_repo task
 DockerImageRake::DestructiveValidateRepo.new(opts)
+DockerImageRake::BuildGeneral.new(opts)
 # creates style:repocritic task
 DockerImageRake::RepoCritic.new(opts)
 # creates all kitchen tasks in itest namespace
@@ -79,6 +80,8 @@ namespace 'itest' do
   end
   task end_user_test: :end_user_test_prep
 
+  # Test-Kitchen needs Chef-Client installed in order to run BATS tests (or
+  # any other tests). We want small image and fast tests, on Alpine.
   task :kitchen do
     Rake.sh(". ./imagerc && kitchen converge default-docker-image && kitchen exec default-docker-image -c \"bats /tmp/bats\" ; kitchen destroy default-docker-image")
   end
@@ -89,6 +92,9 @@ namespace 'go' do
   namespace 'itest' do
     task :end_user_test do
       Rake::Task['itest:end_user_test'].invoke
+    end
+    task :kitchen do
+      Rake::Task['itest:kitchen'].invoke
     end
   end
 end

@@ -1,5 +1,5 @@
 **/.kitchen
-**/imagerc
+**/imagerc*
 **/*.html
 **/real_identity/**
 **/dummy_work/**
