@@ -90,14 +90,6 @@ bundle exec kitchen destroy default
 
 Here `.kitchen.image.yml` is used.
 
-### dockerimagerake
-**Gem dockerimagerake** is used to:
- * provide test rake tasks
- * create imagerc file and source it for rake tasks
- * provide docker image build rake task
- * provide release and publish rake tasks
-Those rake tasks are used in `ci.gocd.yaml` file.
-
 ## License
 
 This project is licensed under the [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/) license.
