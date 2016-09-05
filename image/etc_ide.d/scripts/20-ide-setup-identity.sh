@@ -21,16 +21,6 @@ cp -r "${ide_identity}/.ssh" "${ide_home}"
 echo "StrictHostKeyChecking no
 UserKnownHostsFile /dev/null
 
-ForwardAgent yes
-Host git.ai-traders.com
-User git
-Port 2222
-IdentityFile ${ide_home}/.ssh/id_rsa
-
-Host gitlab.ai-traders.com
-User git
-Port 2222
-IdentityFile ${ide_home}/.ssh/id_rsa
 " > "${ide_home}/.ssh/config"
 
 # not obligatory configuration file

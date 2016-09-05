@@ -1,5 +1,6 @@
 ---
 provisioner:
+  # no chef-client
   name: dummy
 
 platforms:
@@ -10,19 +11,22 @@ platforms:
       name: docker_cli
     driver_config:
       dockerfile: KitchenDockerfile
-      # the just built image, those env variables are taken from imagerc file
-      image: gitide:<%= ENV['AIT_DOCKER_IMAGE_TAG'] %>
-      # this does not work, so it is set in KitchenDockerfile:
-      # entrypoint: /bin/bash
-      # And you have to set command too
+      # entrypoint: /bin/bash and command: /bin/bash do not work
       command:  -c 'while true; do sleep 1d; done;'
-      container_name: kt-gitide-image
-      # mount dummy_work so that ide-fix-uid-gid.sh works
-      # mount dummy_identity in order to not rely on real identity
-      volume:
-        - <%= File.dirname(__FILE__) %>/test/integration/dummy_work:/ide/work
-        - <%= File.dirname(__FILE__) %>/test/integration/dummy_identity:/ide/identity
-        - <%= File.dirname(__FILE__) %>/test/integration/default/bats:/tmp/bats
+      image: <%= ENV['AIT_DOCKER_IMAGE_NAME'] %>:<%= ENV['AIT_DOCKER_IMAGE_TAG'] %>
 
 suites:
   - name: default
+    driver_config:
+      container_name: kt-gitide-image
+      volume:
+        - <%= File.dirname(__FILE__) %>/test/integration/dummy_work:/ide/work
+        - <%= File.dirname(__FILE__) %>/test/integration/identities/full:/ide/identity
+        - <%= File.dirname(__FILE__) %>/test/integration/default/bats:/tmp/bats
+  - name: no-id-rsa
+    driver_config:
+      container_name: kt-gitide-image-no-id-rsa
+      volume:
+        - <%= File.dirname(__FILE__) %>/test/integration/dummy_work:/ide/work
+        - <%= File.dirname(__FILE__) %>/test/integration/identities/no_id_rsa:/ide/identity
+        - <%= File.dirname(__FILE__) %>/test/integration/no_id_rsa/bats:/tmp/bats

@@ -3,3 +3,7 @@
 **/*.html
 **/real_identity/**
 **/dummy_work/**
+
+bats/
+bats-support/
+bats-assert/

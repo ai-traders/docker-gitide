@@ -1,0 +1,50 @@
+pipelines:
+  "docker-gitide":
+    group: ide
+    label_template: "${git[:8]}"
+    materials:
+      git:
+        git: "git@git.ai-traders.com:ide/docker-gitide.git"
+        branch: ci
+    stages:
+      - style_unit:
+          clean_workspace: true
+          jobs:
+            validate_repo:
+              resources:
+                - docker
+                - small
+              tasks:
+                - script: ide "bundle install && bundle exec rake go:git:destructive_validate_repo"
+            repocritic:
+              resources:
+                - docker
+                - small
+              tasks:
+                - script: ide "bundle install && bundle exec rake go:style:repocritic"
+      - build:
+          clean_workspace: true
+          jobs:
+            docker_image:
+              resources:
+                - docker
+                - small
+              artifacts:
+                - build:
+                    source: image/imagerc
+                    destination:
+              tasks:
+                - script: ide "bundle install && bundle exec rake build_configs_image && bundle exec rake build"
+                # this is the same job so that it happens on 1 go-agent and
+                # thus there is no need to docker push the image before it's tested
+                - script: ide ". ./image/imagerc && bundle install && bundle exec rake kitchen"
+                - script: ide ". ./image/imagerc && bundle install && bundle exec rake install_ide && bundle exec rake install_bats && bundle exec rake end_user"
+      - release:
+          clean_workspace: true
+          jobs:
+            code:
+              resources:
+                - docker
+                - small
+              tasks:
+                - script: ide "bundle install && bundle exec rake go:release:code"
