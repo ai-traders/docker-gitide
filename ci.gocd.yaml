@@ -34,11 +34,11 @@ pipelines:
                     source: image/imagerc
                     destination:
               tasks:
-                - script: ide "bundle install && bundle exec rake build"
-                # this is the same job so that it happens on 1 go-agent and
-                # thus there is no need to docker push the image before it's tested
-                - script: ide ". ./image/imagerc && bundle install && bundle exec rake kitchen"
-                - script: ide ". ./image/imagerc && bundle install && bundle exec rake install_ide && bundle exec rake install_bats && bundle exec rake end_user"
+                # This is the same job so that it happens on 1 go-agent and
+                # thus there is no need to docker push the image before it's tested.
+                # Also, this has to happen inside 1 ide "session", because the
+                # gitide now tested is never pushed to any docker regsitry.
+                - script: ide "bundle install && bundle exec rake build && bundle exec rake kitchen && bundle exec rake install_ide && bundle exec rake install_bats && bundle exec rake end_user"
       - release:
           clean_workspace: true
           jobs:
