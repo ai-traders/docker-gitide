@@ -34,7 +34,7 @@ pipelines:
                     source: image/imagerc
                     destination:
               tasks:
-                - script: ide "bundle install && bundle exec rake build_configs_image && bundle exec rake build"
+                - script: ide "bundle install && bundle exec rake build"
                 # this is the same job so that it happens on 1 go-agent and
                 # thus there is no need to docker push the image before it's tested
                 - script: ide ". ./image/imagerc && bundle install && bundle exec rake kitchen"
