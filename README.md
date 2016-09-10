@@ -83,9 +83,9 @@ bundle exec rake end_user
 **OR** you can run Test-Kitchen tests also this way:
 ```bash
 source image/imagerc
-bundle exec kitchen converge default
-bundle exec kitchen verify default
-bundle exec kitchen destroy default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen converge default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen verify default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen destroy default
 ```
 
 Here `.kitchen.image.yml` is used.

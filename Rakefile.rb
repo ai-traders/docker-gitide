@@ -28,10 +28,7 @@ task build: [:save_version]
 
 desc 'Run Test-Kitchen tests on built image'
 task :kitchen do
-  instances = ['default-docker-image', ' no-id-rsa-docker-image']
-  instances.each do |instance|
-    Rake.sh(". #{image_dir}/imagerc && export KITCHEN_YAML='#{File.dirname(__FILE__)}/.kitchen.image.yml' && kitchen converge #{instance} && kitchen exec #{instance} -c \"bats /tmp/bats\" && kitchen destroy #{instance}")
-  end
+  Rake.sh(". #{image_dir}/imagerc && export KITCHEN_YAML='#{File.dirname(__FILE__)}/.kitchen.image.yml' && kitchen test")
 end
 
 task :install_ide do
