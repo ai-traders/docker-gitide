@@ -6,4 +6,4 @@
 ###########################################################################
 
 export this_image_name="gitide"
-export this_image_tag="0.3.0"
+export this_image_tag="IMAGE_VERSION"

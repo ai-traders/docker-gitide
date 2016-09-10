@@ -83,20 +83,12 @@ bundle exec rake end_user
 **OR** you can run Test-Kitchen tests also this way:
 ```bash
 source image/imagerc
-bundle exec kitchen converge default
-bundle exec kitchen verify default
-bundle exec kitchen destroy default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen converge default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen verify default
+KITCHEN_YAML="/ide/work/.kitchen.image.yml" bundle exec kitchen destroy default
 ```
 
 Here `.kitchen.image.yml` is used.
-
-### dockerimagerake
-**Gem dockerimagerake** is used to:
- * provide test rake tasks
- * create imagerc file and source it for rake tasks
- * provide docker image build rake task
- * provide release and publish rake tasks
-Those rake tasks are used in `ci.gocd.yaml` file.
 
 ## License
 

@@ -3,6 +3,11 @@ provisioner:
   # no chef-client
   name: dummy
 
+verifier:
+  name: shell
+  command: /usr/local/bin/bats /tmp/bats
+  remote_exec: true
+
 platforms:
   - name: docker-image
     transport:

@@ -1,3 +1,7 @@
+# 0.3.1 (10 Sep 2016)
+
+* use Test-Kitchen shell verifier
+
 # 0.3.0 (2 Sep 2016)
 
 * install IDE image configs from https://github.com/ai-traders/ide.git
